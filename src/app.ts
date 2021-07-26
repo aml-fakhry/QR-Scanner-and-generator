@@ -13,7 +13,7 @@ const app: Application = express();
 /**
  * Specify views folder and template engine.
  */
-app.set('views', path.join(__dirname, './views'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 /**
