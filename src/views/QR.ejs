@@ -1,0 +1,20 @@
+<!doctype html>
+	<head>
+		<title>JavaScript QR Code Generator</title>
+	</head>
+	<body>
+		<h3>QR Code Generator</h3>
+        <canvas></canvas>
+       <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+		<script>
+			console.log('<%-url%>');
+			var qr = new QRious({
+                    element: document.querySelector('canvas'),
+                    size: 200,
+                    value:'<%-url%>'
+                });
+			console.log(qr.toDataURL());
+		</script>
+
+	</body>
+</html>
