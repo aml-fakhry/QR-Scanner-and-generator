@@ -53,14 +53,6 @@ yarn start:build
 http://localhost:3001
 ```
 
-## ENV variable
-
-- port for run project
-
-```
-  APP_PORT = "3000"
-```
-
 ### Functionality and Endpoints.
 
 1- Create QR code by id..
