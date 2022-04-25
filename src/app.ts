@@ -1,7 +1,6 @@
 import express, { Application } from 'express';
 import path from 'path';
 import axios from 'axios';
-import { AppHttpResponse } from './shared';
 
 /**
  * A singleton instance of express application that will be used to setup our express server.
@@ -20,10 +19,14 @@ app.set('view engine', 'ejs');
  * Gets and create QR code by id.
  */
 app.get('/qr/:id', async (req, res) => {
-  const id = req.params.id;
-  res.render('QR', {
-    url: `http://localhost:3001/data/${id}`,
-  });
+  try {
+    const id = req.params.id;
+    res.render('generate_qr', {
+      url: `http://localhost:3001/data/${id}`,
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 
 /**
@@ -31,11 +34,15 @@ app.get('/qr/:id', async (req, res) => {
  * send a url and can run in browser to see data
  */
 app.get('/data/:id', async (req, res) => {
-  const id = req.params.id;
-  const result = await axios.get<AppHttpResponse>(`https://jsonplaceholder.typicode.com/todos/${id}`);
-  res.render('profile', {
-    data: result.data,
-  });
+  try {
+    const id = req.params.id;
+    const result = await axios.get<{ data: unknown }>(`https://jsonplaceholder.typicode.com/todos/${id}`);
+    res.render('read_qr', {
+      data: result.data,
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 
 /**
@@ -45,7 +52,7 @@ app.get('/data/:id', async (req, res) => {
 function startServer(app: Application): void {
   const port = process.env.PORT || 3001;
 
-  app.listen(port, () => console.log(`server run ${port}`));
+  app.listen(port, () => console.log(`Server is running now at http://localhost:${port}`));
 }
 /**
  * Start express server after all are done.
